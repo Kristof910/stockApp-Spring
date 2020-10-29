@@ -15,18 +15,20 @@ public class AppController {
     @PostMapping("/buy/{stock}/{price}")
     public String start(@PathVariable("stock") String symbol, @PathVariable("price") int price) {
         String content = "";
+        String tradeContent = "";
         try {
             boolean purchased = trader.buy(symbol, price);
+            tradeContent = trader.getContent();
             if (purchased) {
-                content += "Purchased stock!";
+                content = "Purchased stock!";
             }
             else {
-                content += "Couldn't buy the stock at that price.";
+                content = "Couldn't buy the stock at that price.";
             }
         } catch (Exception e) {
-            content += "There was an error while attempting to buy the stock: " + e.getMessage();
+            content = "There was an error while attempting to buy the stock: " + e.getMessage();
         }
-        return content;
+        return tradeContent + "\n" + content;
     }
 
 }
